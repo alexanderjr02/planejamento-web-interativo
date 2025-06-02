@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Catálogo de Receitas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-warning">
+  <div class="container-fluid">
+    <h1 class="text-center my-4">Catálogo de Receitas</h1>
+    <div id="pnlCatalogo" class="d-flex flex-wrap justify-content-center gap-3"></div>
+  </div>
+
+  <script>
+    const receitas = [
+      {
+        titulo: 'Bolo de Chocolate',
+        imagem: 'https://bakeandcakegourmet.com.br/uploads/site/receitas/bolo-de-chocolate-facil-e-barato-rspxk8nc.jpg',
+        preparo: 'Misture todos os ingredientes e asse por 40 minutos a 180°C.',
+        ingredientes: ['2 xícaras de farinha de trigo', '1 xícara de açúcar', '1/2 xícara de cacau em pó', '3 ovos', '1 xícara de leite']
+      },
+      {
+        titulo: 'Salada Colorida',
+        imagem: 'https://guiadacozinha.com.br/wp-content/uploads/2019/10/salada-colorida-de-frango-22300.jpg',
+        preparo: 'Misture todos os ingredientes e sirva fresca.',
+        ingredientes: ['Alface', 'Tomate', 'Cenoura ralada', 'Milho', 'Azeite e sal a gosto']
+      },
+      {
+        titulo: 'Pão Caseiro',
+        imagem: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYq8CoA3xZd31MM7P7YM3vW_T8U-0yvw9GaA&s',
+        preparo: 'Deixe crescer a massa por 1 hora e asse por 30 minutos.',
+        ingredientes: ['500g de farinha', '300ml de água', '1 colher de fermento biológico', '1 colher de sal']
+      }
+    ];
+
+    function getListaIngredientes(receita){
+      let texto = '<ul>';
+      texto += receita.ingredientes.map(ing => `<li>${ing}</li>`).reduce((a,b) => a+b, '');
+      texto += '</ul>';
+      return texto;
+    }
+
+    function getCard(receita){
+      return `
+      <div class="card" style="width: 250px;">
+        <img src="${receita.imagem}" class="card-img-top" alt="${receita.titulo}" />
+        <div class="card-body">
+          <h5 class="card-title">${receita.titulo}</h5>
+          <div class="card-text">
+            ${getListaIngredientes(receita)}
+            <hr />
+            <p>${receita.preparo}</p>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    function preencheCatalogo(){
+      const pnl = document.getElementById('pnlCatalogo');
+      const html = receitas.map(getCard).reduce((a,b) => a+b, '');
+      pnl.innerHTML = html;
+    }
+
+    window.onload = preencheCatalogo;
+  </script>
+</body>
+</html>

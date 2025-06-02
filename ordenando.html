@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ordenação com JavaScript</title>
+  <script src="ordenando.js" defer></script>
+</head>
+<body>
+  <h1>Ordenação com JavaScript</h1>
+  <input type="number" id="valor" />
+  <button onclick="add()">Adicionar</button>
+  
+  <select id="algoritmo">
+    <option selected>Bubble Sort</option>
+    <option>Selection Sort</option>
+    <option>Quick Sort</option>
+  </select>
+
+  <button onclick="ordenar()">Ordenar</button>
+  <button onclick="misturar()">Misturar</button>
+
+  <ul id="valores"></ul>
+
+  <script>
+    function add(){
+      const input = document.getElementById('valor');
+      const lista = document.getElementById('valores');
+      const val = input.value.trim();
+      if(val === '') return;
+      const li = document.createElement('li');
+      li.textContent = val;
+      lista.appendChild(li);
+      input.value = '';
+      input.focus();
+    }
+
+    function ordenar(){
+      const lista = document.getElementById('valores');
+      const select = document.getElementById('algoritmo');
+      const valores = Array.from(lista.children)
+        .map(li => eval(li.innerHTML)); // converte para inteiro
+
+      let resultado;
+      switch(select.selectedIndex){
+        case 0: // Bubble Sort
+          resultado = bubble_sort([...valores]);
+          break;
+        case 1: // Selection Sort
+          resultado = selection_sort([...valores]);
+          break;
+        case 2: // Quick Sort
+          resultado = quick_sort([...valores], 0, valores.length - 1);
+          break;
+        default:
+          resultado = valores;
+      }
+
+      lista.innerHTML = resultado
+        .map(v => `<li>${v}</li>`)
+        .reduce((acum, el) => acum + el, '');
+    }
+
+    function misturar(){
+      const lista = document.getElementById('valores');
+      const valores = Array.from(lista.children)
+        .map(li => eval(li.innerHTML));
+
+      shuffle(valores, valores.length * 3);
+
+      lista.innerHTML = valores
+        .map(v => `<li>${v}</li>`)
+        .reduce((acum, el) => acum + el, '');
+    }
+  </script>
+</body>
+</html>
